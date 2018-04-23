@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        ">
+
+    <context:component-scan base-package="ru.el59"/>
+    <import resource="classpath:spring/dao.xml"/>
+
+    <!--class="org.springframework.jdЬc.datasource.DriverManagerDataSource"-->
+    <!--<bean id="dataSource"-->
+    <!--class="org.apache.commons.dbcp.BasicDataSource"-->
+    <!--destroy-method="close"-->
+    <!--p:driverClassName="${jdЬc.driverClassName}"-->
+    <!--p:url="$ { jdbc. url}"-->
+    <!--p:username="${jdЬc.username}"-->
+    <!--p:password="${jdbc.password}"/>-->
+
+    <jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script location="classpath:sql/schema.sql"/>
+        <jdbc:script location="classpath:sql/init-data.sql"/>
+    </jdbc:embedded-database>
+
+    <context:property-placeholder
+            location="classpath:jdbc.properties"/>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory"
+    />
+
+    <tx:annotation-driven/>
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:packagesToScan="ru.el59"
+          p:hibernateProperties-ref="hibernateProperties"/>
+
+    <util:properties id="hibernateProperties">
+        <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+        <prop key="hibernate.max fetch depth">З</prop>
+        <prop key="hibernate. jdЬc. fetch size">50</prop>
+        <prop key="hibernate.jdЬc.batch_size">lO</prop>
+        <!--<prop key="hibernate.show_sql">true</prop>-->
+    </util:properties>
+
+</beans>

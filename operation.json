@@ -1,0 +1,11 @@
+{
+  "amount": "5.00",
+  "comment": "",
+  "ddate": "2018-03-27",
+  "srcAccount": {
+    "id": 2
+  },
+  "dstAccount": {
+    "id": 1
+  }
+}

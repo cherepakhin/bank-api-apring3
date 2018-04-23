@@ -1,0 +1,29 @@
+
+#Клиенты банка
+Client
+id: long
+#Имя
+name: string
+#Возраст
+age: integer
+#Телефон
+phone: string
+
+#Счет клиента в банке
+Account
+#Номер
+id: long
+#Клиент
+client_id: long
+#Остаток на счете
+balance: BigDecimal
+
+#Перевод со счета на счет
+Transaction
+id: long
+#Со счета
+src: long
+#На счет
+dst: long
+#Сумма
+ammount: BigDecimal

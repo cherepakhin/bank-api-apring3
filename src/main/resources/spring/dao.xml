@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        ">
+
+    <bean id="genericDao" class="ru.el59.dao.impl.GenericDaoImpl" abstract="true"
+          p:sessionFactory-ref="sessionFactory"/>
+
+    <bean id="clientDao" class="ru.el59.dao.impl.ClientDao" parent="genericDao">
+        <constructor-arg value="ru.el59.model.Client"/>
+    </bean>
+
+    <bean id="accountDao" class="ru.el59.dao.impl.AccountDao" parent="genericDao">
+        <constructor-arg value="ru.el59.model.Account"/>
+    </bean>
+
+    <bean id="operationDao" class="ru.el59.dao.impl.OperationDao" parent="genericDao"
+          p:accountDao-ref="accountDao">
+        <constructor-arg value="ru.el59.model.Operation"/>
+    </bean>
+</beans>
